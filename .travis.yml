@@ -1,0 +1,25 @@
+sudo: false
+language: node_js
+services:
+  - postgresql
+git:
+  depth: 25
+  quiet: true
+node_js:
+- '8'
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - node_modules
+before_install:
+- npm update
+install:
+- npm install
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+script:
+- npm test -- --coverage
+after_script:
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls

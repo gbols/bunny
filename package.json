@@ -1,0 +1,50 @@
+{
+  "name": "bunny-studio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "export NODE_ENV=prod && npm run build && node ./dist/bin/www.js",
+    "build": "babel src -d dist",
+    "setup:test": "./node_modules/.bin/env-cmd -f ./envs/test.env sequelize db:migrate",
+    "teardown:test": "./node_modules/.bin/env-cmd -f ./envs/test.env  sequelize db:migrate:undo:all",
+    "test:local": "npm run teardown:test && npm run setup:test  && ./node_modules/.bin/env-cmd -f ./envs/test.env jest --no-cache --detectOpenHandles --runInBand --forceExit",
+    "start:dev": "./node_modules/.bin/env-cmd -f ./envs/dev.env nodemon --exec babel-node ./src/bin/www.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "test": "export NODE_ENV=test && ./node_modules/.bin/sequelize db:migrate:undo:all && ./node_modules/.bin/sequelize db:migrate && jest --no-cache --detectOpenHandles --runInBand --forceExit"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/register": "^7.7.7",
+    "@babel/runtime": "^7.7.6",
+    "bcrypt": "^3.0.7",
+    "dotenv": "^8.2.0",
+    "env-cmd": "^10.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.9.1",
+    "pg": "^7.15.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.21.3",
+    "sequelize-cli": "^5.4.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.9",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2"
+  }
+}

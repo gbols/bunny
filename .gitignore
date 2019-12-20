@@ -1,0 +1,10 @@
+coverage
+envs
+false
+output
+dist
+
+node_modules/
+*.log
+
+.env
